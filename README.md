@@ -1,36 +1,32 @@
-# Reese's Portfolio
-
-## Introduction
 # Welcome to Reese Karo's Portfolio
 
-Hi! My name is Reese Karo, and I am a junior at the University of California, Santa Barbara, double majoring in Applied Mathematics and Statistics & Data Science. 
-I have a profound drive and passion for mathematics and machine learning, especially in applying these disciplines to solve real-world problems.
-My inspiration comes from my grandfather, a physicist who dedicated his life to working passionately in his lab. His dedication to science and love for his work deeply influence my approach to learning and research.
-Currently, my primary interests lie in numerical analysis and delving deeper into the realms of machine learning and neural networks. 
-I am particularly fascinated by their applications in solving complex partial differential equations, a theme that resonates through many of my projects.
-Join me on this journey through my academic and project explorations, where I combine my love for mathematics with practical, innovative solutions.
-
+Hi! My name is Reese Karo, a junior at the University of California, Santa Barbara, double majoring in Applied Mathematics and Statistics & Data Science. My passion for mathematics and machine learning is driven by a desire to apply these disciplines in solving real-world problems, inspired by my grandfather, a dedicated physicist. I'm currently focused on numerical analysis and exploring machine learning and neural networks, especially their applications in solving complex partial differential equations. Join me in exploring my academic journey and innovative project solutions.
 
 ## Projects Overview
-From my numerical analysis class, we engaged in diving deeper into using Newton's and secant methods to help us solve for the volume of a gas using van der Waals equation. 
-Another project was using 
-Under my research with a professor in the math department, I have included some work involving Sparse Identification of non-linear dynamics (SINDy), 
-complemented with 3d attractors to help us find coefficients that drive the underlying forces to help create these attractors.
 
 ### Newton and Secant Methods for the Van der Waals Equation
-- **Description**: The Van der Waals equation is used in chemistry to help, to help solve for molar volume of a gas, or for the temperature of the gas, depending on the context of the situation.
-- By fixing the constants, we were able to apply the Newtons method and secant method to help us find the root of the equation by setting the equation to 0. This would tell us the value of the volume.
-- **Technologies Used**: Using Numpy in Python to help us solve for the root of our equation, and Matplotlib to help us plot the function and make it easier for audiences.
-- **Key Achievements**: Resulted in being able to solve for the volume of a gas when given every other piece of information such as gas constants, temperature, etc.
+- **Description**: Applied Newton's and Secant methods to solve for the volume of a gas using the Van der Waals equation. Adjusting constants allowed us to find the equation's root, providing the gas volume.
+- **Technologies Used**: 
+  - Python
+  - Numpy for numerical computations
+  - Matplotlib for visualizations
+- **Key Achievements**: Successfully calculated the gas volume using given constants, temperature, and other relevant data.
+
 
 ### Newton's Law of Cooling - Euler's Methods
 - **Description**: Newtons law of cooling is a simple differential equations, that can help track how the temperature of a hot object such as a coffee in a lower temperature room, will change over time. We then wanted to use methods to help solve for the temperature of a liquid object would be in a colder roomer over a period of time, using Implicit euler and explicit euler.
-- **Technologies Used**: Numpy in Python and Matplotlib
+- **Technologies Used**: 
+  - Python
+  - Numpy
+  - Matplotlib for Visualizations
 - **Key Achievements**: Able to approximate the slopes of the differential equation by implementing backward and forward Euler's method.
 
 ### Sparse Identification of Nonlinear Dynamics (SINDY)
 - **Description**: SINDy is a tool that is able to help solve for the equations of dynamical systems, that can't be solved normally. By using least squares and regression tools, we are able to help solve for the coefficients that determine the system. The system we chose was the Lorenz Attractor
-- **Technologies Used**: Numpy in Python, Matplotlib and mpl toolkits, sckikitlearn for Lasso
+- **Technologies Used**: 
+  - Numpy in Python for calculating slopes
+  - Matplotlib and mpl toolkits for 3d visualizations, 
+  - sckikitlearn for regression tools such as lasso and Ridge regression
 - **Key Achievements**: By using an interated threshold for Least Squares, we were able to return a sparse set of coefficients that returned the correct coefficients to describe the Lorenz System
 
 ### Additional Class Projects
@@ -56,8 +52,5 @@ I also am interested in furthering my knowledge on the techniques to solving Par
 
 ## Contact Information
 Feel free to reach out and connect with me using any method below:
-- [Email Me](Reesekaro@gmail.com)
-- [Linkedin](www.linkedin.com/in/reese-karo)
-
-[Reese Karo]
-University of California, Santa Barbara
+- [Email Me!](Reesekaro@gmail.com)
+- [Linkedin!](www.linkedin.com/in/reese-karo)
