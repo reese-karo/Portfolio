@@ -26,7 +26,7 @@ Hi! My name is Reese Karo, a junior at the University of California, Santa Barba
 - **Technologies Used**: 
   - Numpy in Python for calculating slopes
   - Matplotlib and mpl toolkits for 3d visualizations, 
-  - sckikitlearn for regression tools such as lasso and Ridge regression
+  - sckikit-learn for regression tools such as lasso and Ridge regression
 - **Key Achievements**: By using an interated threshold for Least Squares, we were able to return a sparse set of coefficients that returned the correct coefficients to describe the Lorenz System
 
 ### Additional Class Projects
