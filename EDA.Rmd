@@ -1,0 +1,628 @@
+---
+title: "Used Cars Pricing Modeling"
+author: "Reese Karo"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    code_folding: show
+  pdf_document:
+    toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE,
+                      warning = FALSE)
+```
+
+-   To refer to a Python EDA over a similar (but not the same) data set, <https://medium.com/mlearning-ai/detailed-exploratory-data-analysis-eda-on-used-cars-data-1bacac746ff4>
+
+# EDA intro
+
+In this document we will be exploring our data and using visuals (graphs, plots, and tables) to help explain how our data can be transformed into clean, processable data to begin modeling.
+
+```{r}
+# install.packages("xgboost")
+# install.packages("ranger")
+library(tidyverse)
+library(tidymodels)
+library(ggplot2)
+library(corrplot)
+library(ggthemes)
+library(dplyr)
+library(kableExtra)
+library(naniar) # visualize missing data
+library(forcats) # data manipulation
+library(stringr)
+library(kknn) # k nearest neighbors
+library(glmnet) # elastic net for linear regression
+library(xgboost) # gradient boost trees
+tidymodels_prefer()
+set.seed(1234)
+car_data <- read.csv('/Users/reese/Documents/School/UC Santa Barbra /Junior/Winter/131/Project/car_prices.csv')
+head(car_data)
+```
+
+## Data Mutation
+
+-   we first need to see what our data consists of. We can use the 'summary()' function
+
+```{r}
+summary(car_data)
+```
+
+-   We need to dive into the transmission column to see what type of classifications there are since there should only be two (Manual and Automatic).
+
+```{r}
+table(car_data$transmission)
+```
+
+-   We see that there are 65379 with no transmission and some as sedan and Sedan which need to be changed.
+-   We also need to ensure that the
+
+In this block of code, the goal here is to make sure our data set shows whether the observations that are missing are going to be NA. This way, in a few blocks below, we will be able to truly see a representation for our missing data. From their we can either impute the missing data, or drop the NA terms.
+
+```{r}
+car_data <- car_data %>% 
+  mutate(
+    transmission = ifelse(tolower(transmission) == "sedan", "automatic", transmission),
+    transmission = ifelse(transmission == "", NA, transmission),
+    make = ifelse(make == "", NA, make),
+    model = ifelse(model == "", NA, model),
+    body = ifelse(tolower(body) == "sedan", "sedan", body),
+    body = ifelse(tolower(body) == "", NA, body),
+    body = tolower(body), # requiring all lower case for body
+    color = ifelse(tolower(color) == "—"| tolower(color) == "", NA, color),
+    interior = ifelse(interior =="—" | interior == "", NA, interior))
+
+# Now we will focus on the body styles to make sure 
+```
+
+In this block of code we can shorten down the body styles to just a few categories very easily with the 'mutate' function and 'case_when' function. This way we are only left with convertible, coupe, hatchback, pickup, sedan, suv/wagon, and van. Lastly this will help us deal with wrong data in the wrong column as well.
+
+```{r}
+car_data <- car_data %>%
+  mutate(body = case_when(
+    body %in% c("access cab", "cab plus", "cab plus 4", "club cab", "crew cab", "crewmax cab", "double cab", "extended cab", "king cab", "mega cab", "quad cab", "regular cab", "regular-cab", "supercab", "supercrew", "xtracab") ~ "pickup",
+    body %in% c("beetle convertible", "convertible", "cts-v coupe", "cts coupe", "e-series van", "elantra coupe", "g convertible", "g37 convertible", "genesis coupe", "granturismo convertible", "q60 convertible") ~ "convertible",
+    body %in% c("coupe", "cts-v coupe", "cts coupe", "g coupe", "g37 coupe", "genesis coupe", "q60 coupe", "koup") ~ "coupe",
+    body %in% c("hatchback") ~ "hatchback",
+    body %in% c("minivan", "promaster cargo van", "transit van", "ram van") ~ "van",
+    body %in% c("sedan", "g sedan") ~ "sedan",
+    body %in% c("suv", "wagon", "cts wagon", "cts-v wagon", "tsx sport wagon", "navigation", "navitgation", " navitgation") ~ "suv/wagon",
+    TRUE ~ body # Keeps the original value if none of the above conditions are met
+  ))
+table(car_data$body)
+```
+
+Now there are 0 sedan transmissions. Also by viewing the data set, we see that Transmission data is also missing some observations in the sense that some observations do not have values that fall in "automatic" or "manual". We can fix this by either imputing values when creating the recipe by KNN or another method, or by removing some observations, which will be the least likely choice.
+
+### Changing all the makes, models, trims, and body styles to lowercase for matching cases
+
+```{r}
+car_data <- car_data %>%
+  mutate(
+    year = as.numeric(year),
+    model = as.factor(tolower(model)),
+    trim = as.factor(tolower(trim)),
+    body = as.factor(tolower(body)),
+    color = as.factor(tolower(color)),
+    interior = as.factor(tolower(interior)),
+    transmission = as.factor(tolower(transmission)),
+    )
+```
+
+### Correcting the state column and vin column for certain observations.
+
+-   We need to clean up the data so State and VIN and condition don't have the wrong data or data in the wrong columns. This is so that we can transform the data and find a correlation of condition and price and odometer
+
+```{r}
+state_vin_list <- c("3vwd17aj0fm227318", "3vwd17aj2fm258506", "3vwd17aj2fm261566" ,"3vwd17aj2fm285365", "3vwd17aj3fm259017", "3vwd17aj3fm276741", "3vwd17aj4fm201708","3vwd17aj4fm236636", "3vwd17aj5fm206111", "3vwd17aj5fm219943", "3vwd17aj5fm221322", "3vwd17aj5fm225953", "3vwd17aj5fm268964", "3vwd17aj5fm273601","3vwd17aj5fm297123", "3vwd17aj6fm218641", "3vwd17aj6fm231972", "3vwd17aj7fm218440", "3vwd17aj7fm222388", "3vwd17aj7fm223475", "3vwd17aj7fm229552", "3vwd17aj7fm326640", "3vwd17aj8fm239622", "3vwd17aj8fm298895", "3vwd17aj9fm219766", "3vwd17ajxfm315938")
+filtered_data <- car_data %>%
+  filter(make == "volkswagen", model == "jetta", state %in% state_vin_list)
+```
+
+```{r}
+# and assuming these values are mistakenly placed in the 'state' column
+car_data_cleaned <- car_data %>%
+  filter(!(state %in% state_vin_list)) %>%
+  filter(state != "")
+```
+
+### Converting character columns to numeric columns
+
+```{r}
+table(car_data_cleaned$condition)
+typeof(car_data_cleaned$condition)
+```
+```{r}
+car_data_cleaned$condition <- as.double(car_data_cleaned$condition)
+car_data_cleaned$mmr <- as.integer(car_data_cleaned$mmr)
+car_data_cleaned$odometer <- as.integer(car_data_cleaned$odometer)
+```
+
+### Dropping NA make observations
+
+The reasoning behind this choice is that there are roughly 10000 observations with missing make, model, and odometer. Due to the size of the data set, removing these observations is an easy choice.
+
+```{r}
+# Filter out rows where 'make' and 'model' is an empty string or NA
+car_data_cleaned <- car_data_cleaned %>%
+  filter(make != "" & !is.na(make)) %>% 
+  filter(model != "" & !is.na(model)) %>% 
+  filter(!is.na(odometer))
+```
+
+
+
+### Combining Makes for truck and parent companies
+
+-   The reason we must do this is because for companies that sell trucks (i.e. Chevy, Dodge/Ram, Toyota, etc.) the label in this data set for those companies with trucks are stand alone makes that go by "chevy truck", "dodge tk", "mazda tk". Therefore we must change our data so that these fall under the same make and model so that there is no mismatch in makes, so that our recipe later on can run properly. What i mean by this is that when we bake and prep our data, we might get an error relating to the recipe not seeing a factor for a first time.
+
+```{r}
+car_data_cleaned <- car_data_cleaned %>% 
+  mutate(
+    make = case_when(
+    str_detect(make, "truck$") ~ str_replace(make, "truck", ""),# Removes " truck" from the end
+    str_detect(make, "tk$") ~ str_replace(make, " tk", ""), # Removes " tk" from the end
+    T ~ make) %>% 
+    str_trim())
+
+```
+
+```{r}
+car_data_cleaned <- car_data_cleaned %>% 
+  mutate(
+    make = fct_lump_n(make, n = 35)
+  )
+```
+
+```{r}
+car_data_cleaned <- car_data_cleaned %>% 
+  mutate(
+    make = as.factor(tolower(make)))
+```
+
+### Summarizng the missing data
+-   We can see missing data to determine if we need to impute or fill in or not use certain observations.
+```{r}
+#vis_miss(car_data_cleaned, warn_large_data = F)
+```
+Thus we can filter out those that are NA due to the size of the data set
+```{r}
+car_data_cleaned <- car_data_cleaned %>% 
+  filter(!is.na(body), !is.na(color), !is.na(interior))
+```
+Now that we have filtered out those with missing variables, We will rerun and check to see that only the "transmission" and "condition" variables have missing data.
+```{r}
+#vis_miss(car_data_cleaned, warn_large_data = F)
+```
+And we can see that we are only missing transmission, and condition data. Exactly like what we wanted
+
+### Avg pricing and counted observations for each make
+
+```{r}
+### summarizing the sell prices of each make
+car_sorted_byprice <- car_data_cleaned %>%
+  group_by(make) %>% # grouping by the make
+  summarise(avg_sell_price = mean(sellingprice, na.rm = TRUE)) %>% # summarizing by the mean of the selling price and removing null obs
+  arrange(desc(avg_sell_price)) # descending avg selling price
+
+### plotting using a bar chart
+barplot_sorted <- ggplot(car_sorted_byprice, aes(x = reorder(make, avg_sell_price), y = avg_sell_price)) + 
+  geom_bar(stat = "identity", color = "blue") + 
+  coord_flip() + 
+  labs(x= "Make", y = "Average selling price") + 
+  theme(text = element_text(size = 9),element_line(size =1))
+
+print(barplot_sorted)
+```
+
+### Top 10 selling cars
+
+```{r}
+library(ggplot2)
+library(dplyr)
+### summarizing the sell prices of each make for the top 10 makes
+car_sorted_byprice <- car_data_cleaned %>%
+  group_by(make) %>%
+  summarise(avg_sell_price = mean(sellingprice, na.rm = TRUE)) %>%
+  arrange(desc(avg_sell_price)) %>%
+  top_n(10, avg_sell_price)
+# Selecting the colors for the graph
+
+### plotting using a bar chart
+barplot_sorted <- ggplot(car_sorted_byprice, aes(x = reorder(make, avg_sell_price), y = avg_sell_price, fill = make)) + 
+  geom_bar(stat = "identity") +
+  labs(title = "Top 10 Makes by Average Selling Price", x = "Make", y = "Average Selling Price") +
+  theme_minimal() + 
+  theme(legend.title = element_blank())
+
+barplot_sorted
+```
+
+### Correlation plot of numerical data
+
+```{r}
+library(corrplot)
+car_data_cleaned %>% 
+  select(is.numeric) %>% 
+  cor(use = "pairwise.complete.obs") %>% 
+  corrplot(method = "number", type = "lower", diag = F)
+```
+
+From the correlation plot, we can see there is positive correlation between the mmr and condition, as well as the selling price and the condition. This can be interpreted as when the car sells for more or the mmr is higher, the condition will be higher. For the odometer (mileage) of the car, we can view this as negative correlation, or interpreted as, lower mileage indicates a higher condition number (or a higher mileage and lower condition number).
+
+### Transmission Types versus Selling Price
+
+```{r}
+# creating a box plot for the transmissions
+car_data_cleaned %>%
+  ggplot(aes(x = transmission, y = sellingprice, color = transmission)) + 
+  geom_boxplot() + 
+  geom_jitter(alpha = 0.01) + 
+  labs(title = "Box Plot of Types of Transmissions & Selling Price", x = "transmission", y = "selling price", color = "Transmission Type") +
+  theme_minimal()
+```
+
+From this plot we can see that most of the cars selling for each transmission is below the \$50,000 selling price mark. This graph also shows that there are fewer cars with manual transmissions that sell.
+
+### Selling Price and Odometer distribution curves
+
+```{r}
+ggplot(aes(x = sellingprice, color = transmission), data = car_data_cleaned) + 
+  geom_histogram(bins = 200, alpha = 0.01, position = "dodge") + 
+  labs(color = "Transmission Type") + 
+  theme_bw()
+```
+
+This plot helps show us the distribution of the outcome variable (selling price). We can see it has a higher peak of cars selling at the 18,000-22,000 price range and is skewed to the right since it has a longer tail on the right side.
+
+### Condition of Cars vs the Color
+
+```{r}
+# represents and shows the relationship between condition and color of the cars
+ggplot(car_data_cleaned, aes(x = condition, y = color)) + 
+  geom_count()
+```
+
+This shows us that Cars in white, silver, gray, and black are the most popular and we can see that their conditions are dense around 2 - 4.5. Thus we may now select a few of the colors to do work with including the interior.
+
+```{r}
+n_top_colors = 10
+
+car_data_cleaned <- car_data_cleaned %>%
+  mutate(color = fct_lump_n(color, n = n_top_colors)) %>% 
+  mutate(interior = fct_lump_n(interior, n = n_top_colors))
+```
+
+### Removing the states and adding in a region column
+
+-   This is done to minimize the dummy code variables from all 50 states and Canada regions to now using 5 regions in the US including Canada.
+
+```{r}
+library(forcats)
+library(janitor)
+library(dplyr)
+library(sf)
+library(tidyverse)
+# NOTE: Can only run this once past this point
+# Clean column names to ensure consistency
+car_data_cleaned <- car_data_cleaned %>% 
+  clean_names()
+
+# Convert state abbreviations to lowercase if they are not already
+car_data_cleaned$state <- tolower(car_data_cleaned$state)
+
+# Mutate to add a region column based on state, then drop the state column
+car_data_cleaned <- car_data_cleaned %>% 
+  mutate(region = forcats::fct_collapse(state,
+                                        west = c("ca", "or", "wa", "id", "mt", "nv", "wy", "ut", "co", "az", "nm", "ak", "hi"),
+                                        midwest = c("nd", "sd", "ne", "ks", "mn", "ia", "mo", "wi", "il", "mi", "in", "oh"),
+                                        northeast = c("me", "vt", "nh", "ma", "ct", "ri", "ny", "pa", "nj"),
+                                        south = c("tx", "ok", "ar", "la", "ky", "tn", "ms", "al", "wv", "de", "md", "va", "nc", "sc", "ga", "fl", "dc"),
+                                        canada = c("ns", "ab", "qc", "pr", "on"))) %>%
+  select(-state)
+```
+
+### Visualizations for Regional Cars
+
+```{r}
+library(forcats)
+library(ggplot2)
+
+car_data_cleaned %>% 
+  ggplot(aes(y = forcats::fct_infreq(region), fill = region)) +
+  geom_bar() +
+  theme_bw() +
+  ylab("Region")
+
+
+### Region versus mean price
+car_data_cleaned %>%
+  group_by(region) %>%
+  summarise(avg_sell_price = mean(sellingprice, na.rm = TRUE)) %>% # Ensure your column name is correct here
+  ggplot(aes(x = region, y = avg_sell_price, fill = region)) + # Use 'fill' for color inside the bars
+  geom_bar(stat = "identity") +
+  labs(title = "Mean Selling Price Per Region", x = "Region", y = "Mean Selling Price ($)") +
+  theme_bw() +
+  scale_fill_brewer(palette = "Set1") # Optional: Use a color palette for visual appeal
+
+```
+
+First, we can get a visualization over how many cars are selling per region in the first plot. Next we can see that top 3 selling regions are the West, Midwest, and the Northeast. Canada has fewer cars being sold, thus their mean price shows that out of the \~20,000 cars being sold, they are roughly as much as the top 3 selling priced region, with more cars being sold. Another note to add is that the south has substantially more cars to sell but their mean price is a bit lower, indicating maybe that the quality of cars being sold in the south are lesser quality.
+
+### Odometer versus Selling Price
+
+```{r}
+car_data_cleaned %>% 
+  ggplot(aes(x = odometer, y = sellingprice, color = transmission)) + 
+  geom_point() +
+  labs(title = "Odometer vs. Selling Price by Transmission Type",
+       x = "Odometer",
+       y = "Selling Price",
+       color = "Transmission Type")
+```
+
+We can easily see the trend that as odemeters increase to 1,000,000, the selling price will decrease and vice versa, which is conveyed as well in the correlation plot above.
+
+# Modeling
+
+In this section of the project, we will be starting the process of modeling by first splitting our data into a training and testing set, then splitting our training data into two folded settings to see which set of the folds gives us better performance. Our next step will be creating our recipe to help us model.
+
+### Splitting Data
+
+```{r}
+# Removing seller, mmr (similar to selling price), saledate, and year since age is based off of year
+car_data_cleaned <- car_data_cleaned %>% 
+  mutate(age = max(year) - year)
+car_data_cleaned <- select(car_data_cleaned, -c(seller, mmr, saledate, vin, year))
+
+# Split into train and testing
+car_data_split <- initial_split(car_data_cleaned, prop = 6/10, strata = sellingprice)
+car_data_train <- training(car_data_split)
+car_data_test <- testing(car_data_split)
+
+# Put training into folds
+car_data_fold <- vfold_cv(car_data_train, v = 10, strata = sellingprice)
+
+head(car_data_train)
+```
+
+### Car Recipe
+
+Here we will include step_impute_linear and step_impute_knn to impute the condition, color, interior, and transmission variables due to them being NA in our data set. I chose to impute with the variables age, odometer, condition and make to keep the model simple when the step function is trying to predict what the variable would be. these are important factors to include when determining the type of transmission to include. Though are far fewer manual transmissions overall, we can
+
+```{r Recipe}
+# Car recipe
+car_recipe <- recipe(sellingprice ~., data = car_data_train) %>%
+  step_impute_knn(transmission, neighbors = 5, impute_with = imp_vars(age, odometer, make)) %>%
+  step_impute_linear(condition, impute_with = imp_vars(age, odometer, make)) %>% 
+  step_dummy(all_nominal_predictors())  # Converts categorical variables to dummies
+```
+
+### Models for the recipe
+
+-   We will be creating 4 different models for our regression problem, with both K = 10 and K = 5 fold CV
+
+    -   Regularized Regression with elastic Net
+
+    -   KNN
+
+    -   Gradient Boosted trees
+
+    -   Random Forest
+
+    -   Potentially GAM (generalized additive model) in the future
+
+```{r Modeling}
+# Create regularized model
+regression_net_mod <- linear_reg(mixture = tune(), penalty = tune()) %>% 
+  set_engine("glmnet") %>% 
+  set_mode("regression")
+
+# Create KNN Model
+knn_mod <- nearest_neighbor(neighbors = tune()) %>% 
+  set_engine("kknn") %>% 
+  set_mode("regression")
+
+# Create a gradient boosted tree model
+gbt_reg_mod <- boost_tree(mtry = tune(),
+                         trees = tune(),
+                         learn_rate = tune()) %>% 
+  set_engine("xgboost") %>% 
+  set_mode("regression")
+
+# Create a Random Forest Model
+rand_forest_mod <- rand_forest(mtry = tune(),
+                               trees = tune(),
+                               min_n = tune()) %>% 
+  set_engine("ranger", importance = "impurity") %>% 
+  set_mode("regression")
+```
+
+### Workflow Creation
+
+```{r Workflows}
+# Regularization workflow
+reg_wf <- workflow() %>% 
+  add_recipe(car_recipe) %>% 
+  add_model(regression_net_mod)
+
+# KNN Workflow
+knn_wf <- workflow() %>% 
+  add_recipe(car_recipe) %>% 
+  add_model(knn_mod)
+
+# Gradient Boosted tree Workflow
+gbt_reg_wf <- workflow() %>% 
+  add_recipe(car_recipe) %>% 
+  add_model(gbt_reg_mod)
+
+# Random tree workflow
+rf_wf <- workflow() %>% 
+  add_recipe(car_recipe) %>% 
+  add_model(rand_forest_mod)
+```
+
+### Creating Tuning Grids
+
+```{r Tuning Grids}
+# Elastic net grid
+reg_net_grid <- grid_regular(
+  mixture(range =c(0, 1)),
+  penalty(range = c(1, 10)),
+  levels = 10
+)
+
+# KNN Grid for tuning neighbors
+knn_grid <- grid_regular(
+  neighbors(range = c(1,10)),
+  levels = 10
+)
+
+# gradient boosted Trees
+gbt_grid <- grid_regular(
+  mtry(range = c(1, 6)),
+  trees(range = c(200, 600)),
+  learn_rate(range = c(-10, -1)),
+  levels = 5
+)
+
+# random forest grid
+rf_grid <- grid_regular(
+  mtry(range = c(1, 6)),
+  trees(range = c(200, 600)),
+  min_n(range = c(10, 20)),
+  levels = 5
+)
+```
+
+### Tuning the grids to our folds
+
+```{r 10Folds}
+# Tuning our models with our K = 10 CV folded training data
+
+# Tune Elastic Net
+tune_regnet_grid <- tune_grid(
+  object = reg_wf,
+  resamples = car_data_fold,
+  grid = reg_net_grid
+)
+
+'# Tune KNN Grid
+tune_knn_grid <- tune_grid(
+  object = knn_wf,
+  resamples = car_data_fold, 
+  grid = knn_grid
+)
+
+# Tune Gradient Boosted Trees
+tune_gbt_grid <- tune_grid(
+  object = gbt_reg_wf,
+  resamples = car_data_fold10,
+  grid = gbt_grid
+)
+
+# Tune Random Forest
+tune_rf_grid <- tune_grid(
+  object = rf_wf,
+  resamples = car_data_fold10,
+  grid = rf_grid
+)'
+show_notes(.Last.tune.result)
+```
+
+
+### Saving the tunes
+
+```{r}
+save(tune_regnet_grid, file = "tune_regnet.rda")
+'save(tune_gbt_grid, file = "tune_gbt.rda")
+save(tune_rf_grid, file = "tune_rf.rda")
+```
+
+### Plotting the tunes
+
+```{r}
+load("tune_regnet.rda")
+'load("tune_gbt_grid.rda")
+load("tune_rf.rda")'
+```
+
+```{r}
+'autoplot(tune_gbt10) + theme_minimal()'
+autoplot(tune_regnet_grid)
+```
+
+-   We have to find the best mixture of hyper-parameters for both k = 10 and k =5 Cross-valid to see which performs better for such a large data set
+
+### Collecting Best Models
+
+```{r}
+# Best hyperparemeter tunes for K = 10 Cross-Valid
+best_mix_pen <- select_best(tune_regnet_grid)
+'best_neighbor <- select_by_one_std_err(tune_knn_grid) # Select_by_one_std_err for a simpler model
+best_class <- select_best(tune_gbt_grid)
+best_rf <- select_best(tune_rf_grid)'
+```
+
+### Finalizing the workflows with our tuned hyper-parameters
+
+Finalizing workflows for both K = 10 Fold and K = 5 Fold
+
+```{r}
+# finalizing workflows for all models
+
+# finalize with K = 10
+final_regnet <-finalize_workflow(reg_wf, best_mix_pen)
+'final_knn <- finalize_workflow(knn_wf, best_neighbor)
+final_gbt <- finalize_workflow(gbt_reg_wf, best_class)
+final_rf <- finalize_workflow(gbt_reg_wf, best_rf)'
+```
+
+### Model Selection
+
+```{r}
+# fitting the final models to the entire training set
+# K = 10
+final_regnet <- fit(final_regnet, car_data_train)
+'final_knn <- fit(final_knn, car_data_train)
+final_gbt <- fit(final_gbt, car_data_train)
+final_rf <- fit(final_rf, car_data_train)'
+```
+
+### Useful Predictors
+
+```{r}
+# We can visualize the most important variables from the tree running its model using VIP
+# K = 10
+'final_rf %>% extract_fit_parsnip() %>% 
+  vip() +
+  theme_minimal()'
+```
+
+### Fit to Testing Data
+
+```{r}
+multi_metric <- metric_set(rmse, rsq, mae)
+'models <- c("Regularized Reg", "KNN", "Gradient-Boosted tree", "Random Forest")'
+```
+
+```{r}
+final_regnet_test <- augment(final_regnet, car_data_test) %>% 
+  multi_metric(truth = sellingprice, estimate = .pred)
+'final_knn_test <- augment(final_knn, car_data_test) %>% 
+  multi_metric(truth = sellingprice, estimate = .pred)
+final_gbt_test <- augment(final_gbt, car_data_test) %>% 
+  multi_metric(truth = sellingprice, estimate = .pred)
+final_rf_test <- augment(final_rf, car_data_test) %>% 
+  multi_metric(truth = sellingprice, estimate = .pred)'
+final_regnet_test
+```
+
+### Results
+
+```{r}
+```
