@@ -35,20 +35,22 @@ we were able to transform the data to meet certain criteria for the residuals. T
 
 ## Languages and Packages
 - Python
+  - Pytorch
   - Numpy
   - SciPy
   - Pandas
   - Matplolib
   - Seaborn
 - R & R Markdown
+  - TidyModels (ML)
 - SQL
 
 ## Goals and Future Projects
 As a kid I was very passionate about sports cars and cars in general. Prices for vehicles can change based off many economical factors, which makes this a unique problem to tackle. Using data to train on from previous sales, we can try to model based off the given conditions of the vehicle.
 The demand of a certain feature of a vehicle can help increase the prices of the vehicles, such as the transmission, or engine choice for example.
 My future goals include creating a price predictor to help predict the pricing of selling vehicles from websites such as [Bring-A-Trailer](https://bringatrailer.com), 
-and [CarsandBids](https://carsandbids.com).
-I also am interested in furthering my knowledge on the techniques to solving Partial differential equations.
+and [CarsandBids](https://carsandbids.com). I'm currently in the process of finishing up a similar project with a large data set of used Car Auctions sales, trying to predict the price of common vehicles. 
+I also am interested in furthering my knowledge on the techniques to solving Partial differential equations which I am currently in the development of with the heat conductivity research.
 
 ## Contact Information
 Feel free to reach out and connect with me using any method below:
