@@ -13,13 +13,17 @@ Hi! My name is Reese Karo, a junior at the University of California, Santa Barba
 - **Key Achievements**: Successfully calculated the gas volume using given constants, temperature, and other relevant data.
 
 
-### Newton's Law of Cooling - Euler's Methods
-- **Description**: Newtons law of cooling is a simple differential equations, that can help track how the temperature of a hot object such as a coffee in a lower temperature room, will change over time. We then wanted to use methods to help solve for the temperature of a liquid object would be in a colder roomer over a period of time, using Implicit euler and explicit euler.
-- **Technologies Used**: 
+### Black-Scholes PDE approximation
+- **Description**:This project applies the Finite Difference Method to numerically approximate the Black-Scholes model for European call options. Through Python and Numpy, we've translated complex financial theory into a practical computational tool, supported by Matplotlib visualizations to demonstrate option pricing dynamics.
+- **Technologies Used**:
+  - Finite Difference Method
   - Python
   - Numpy
   - Matplotlib for Visualizations
-- **Key Achievements**: Able to approximate the slopes of the differential equation by implementing backward and forward Euler's method.
+- **Key Achievements**:
+  - Accurate approximation of the Black-Scholes equation for call option pricing.
+  - Efficient algorithm implementation demonstrating numerical analysis of financial models.
+  - Insightful visualizations illustrating option price variations with underlying market changes.
 
 ### Sparse Identification of Nonlinear Dynamics (SINDY)
 - **Description**: SINDy is a tool that is able to help solve for the equations of dynamical systems, that can't be solved normally. By using least squares and regression tools, we are able to help solve for the coefficients that determine the system. The system we chose was the Lorenz Attractor
