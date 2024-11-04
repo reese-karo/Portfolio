@@ -1,17 +1,28 @@
 # Welcome to Reese Karo's Portfolio
 
-Hi! My name is Reese Karo, a junior at the University of California, Santa Barbara, double majoring in Applied Mathematics and Statistics & Data Science. My passion for mathematics and machine learning is driven by a desire to apply these disciplines in solving real-world problems, inspired by my grandfather, a dedicated physicist. I'm currently focused on numerical analysis and exploring machine learning and neural networks, especially their applications in solving complex partial differential equations. Join me in exploring my academic journey and innovative project solutions.
+Hi! My name is Reese Karo, a senior at the University of California, Santa Barbara, double majoring in Applied Mathematics and Statistics & Data Science. My passion for mathematics and machine learning is driven by a desire to apply these disciplines in solving real-world problems, inspired by my grandfather, a dedicated physicist. I'm currently focused on numerical analysis and exploring machine learning and neural networks, especially their applications in solving complex partial differential equations. Join me in exploring my academic journey and innovative project solutions.
 
 ## Projects Overview
 
-### Newton and Secant Methods for the Van der Waals Equation
-- **Description**: Applied Newton's and Secant methods to solve for the volume of a gas using the Van der Waals equation. Adjusting constants allowed us to find the equation's root, providing the gas volume.
-- **Technologies Used**: 
-  - Python
-  - Numpy for numerical computations
-  - Matplotlib for visualizations
-- **Key Achievements**: Successfully calculated the gas volume using given constants, temperature, and other relevant data.
+### DataScout With Langchain
+**Description**: Developed a Streamlit-based interactive agent using the Langchain API, which allows users to input a search query on a specific topic. The system enhances query relevance by dynamically retrieving up-to-date information from the web through an integrated crawling API. This ensures the language model provides responses grounded in the latest available data.
 
+**Objective**: Large language models (LLMs) often rely on static datasets, making them prone to outdated responses. Data Scout addresses this by augmenting LLM responses with freshly crawled information, enabling users to receive timely and contextually enriched answers.
+
+**Technologies Used**:
+- Langchain, OpenAI Embeddings, Streamlit, GoogleSearch API, ApifyClient API
+- Python libraries: langchain_community, streamlit
+
+### Prediction of Car Auction Prices
+- **Description**: Working with a kaggle dataset of over 100,000 observations that required transformation to the dataset and EDA to understand Using Tidyverse packages in R. Forecasted auction car prices using 100,000 observations and machine learning algorithms, with the Gradient Boosted Tree model achieving the best RMSE of 4095 in training data and 4268 on the test set.
+- **Technologies Used**:
+  - R (Tidyverse, DPLYR, ggplot2)
+  - Machine Learning algorithms
+    - Random Forests
+    - XGBoost
+    - KNN
+    - Regression
+    - Simple Neural Network  
 
 ### Black-Scholes PDE approximation
 - **Description**:This project applies the Finite Difference Method to numerically approximate the Black-Scholes model for European call options. Through Python and Numpy, we've translated complex financial theory into a practical computational tool, supported by Matplotlib visualizations to demonstrate option pricing dynamics.
@@ -39,22 +50,19 @@ we were able to transform the data to meet certain criteria for the residuals. T
 
 ## Languages and Packages
 - Python
-  - Pytorch
+  - TensorFlow/Pytorch
   - Numpy
   - SciPy
   - Pandas
   - Matplolib
   - Seaborn
-- R & R Markdown
+- R
   - TidyModels (ML)
+  - ggplot2
 - SQL
 
 ## Goals and Future Projects
-As a kid I was very passionate about sports cars and cars in general. Prices for vehicles can change based off many economical factors, which makes this a unique problem to tackle. Using data to train on from previous sales, we can try to model based off the given conditions of the vehicle.
-The demand of a certain feature of a vehicle can help increase the prices of the vehicles, such as the transmission, or engine choice for example.
-My future goals include creating a price predictor to help predict the pricing of selling vehicles from websites such as [Bring-A-Trailer](https://bringatrailer.com), 
-and [CarsandBids](https://carsandbids.com). I'm currently in the process of finishing up a similar project with a large data set of used Car Auctions sales, trying to predict the price of common vehicles. 
-I also am interested in furthering my knowledge on the techniques to solving Partial differential equations which I am currently in the development of with the heat conductivity research.
+- 
 
 ## Contact Information
 Feel free to reach out and connect with me using any method below:
