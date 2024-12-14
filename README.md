@@ -1,8 +1,15 @@
-# Welcome to Reese Karo's Portfolio
+# <span style="color:#2e86c1">Welcome to Reese Karo's Portfolio</span>
 
-Hi! My name is Reese Karo, a senior at the University of California, Santa Barbara, double majoring in Applied Mathematics and Statistics & Data Science. My passion for mathematics and machine learning is driven by a desire to apply these disciplines in solving real-world problems, inspired by my grandfather, a dedicated physicist. I'm currently focused on numerical analysis and exploring machine learning and neural networks, especially their applications in solving complex partial differential equations. Join me in exploring my academic journey and innovative project solutions.
+Hi! I'm Reese Karo, a senior at the University of California, Santa Barbara, pursuing a double major in Applied Mathematics and Statistics & Data Science. My enthusiasm for mathematics and machine learning stems from a commitment to applying these fields to tackle real-world challenges. Currently, I am delving into numerical analysis and investigating the applications of machine learning and neural networks, particularly in solving complex partial differential equations. I invite you to join me on my academic journey and explore my innovative project solutions.
 
-## Projects Overview
+## <span style="color:#2e86c1">Featured Projects</span>
+### Brain Tumor Classification Modeling
+**Description**: This project involves predicting brain tumor types using Convolutional Neural Networks (CNN). The vignette explains the concepts behind CNNs and demonstrates their application in image classification.
+
+**Technologies Used**:
+- Python, Keras API, Tensorflow, OpenCV (CV2), Numpy, Matplotlib, Scikit-Learn 
+
+**GitHub Repository**: [Vignette on Brain Tumor Classification](https://github.com/Capstone-24-25/vignette-cnn)
 
 ### DataScout With Langchain
 **Description**: Developed a Streamlit-based interactive agent using the Langchain API, which allows users to input a search query on a specific topic. The system enhances query relevance by dynamically retrieving up-to-date information from the web through an integrated crawling API. This ensures the language model provides responses grounded in the latest available data.
@@ -36,35 +43,27 @@ Hi! My name is Reese Karo, a senior at the University of California, Santa Barba
   - Efficient algorithm implementation demonstrating numerical analysis of financial models.
   - Insightful visualizations illustrating option price variations with underlying market changes.
 
-### Sparse Identification of Nonlinear Dynamics (SINDY)
-- **Description**: SINDy is a tool that is able to help solve for the equations of dynamical systems, that can't be solved normally. By using least squares and regression tools, we are able to help solve for the coefficients that determine the system. The system we chose was the Lorenz Attractor
-- **Technologies Used**: 
-  - Numpy in Python for calculating slopes
-  - Matplotlib and mpl toolkits for 3d visualizations, 
-  - sckikit-learn for regression tools such as lasso and Ridge regression
-- **Key Achievements**: By using an interated threshold for Least Squares, we were able to return a sparse set of coefficients that returned the correct coefficients to describe the Lorenz System
 
-### Additional Class Projects
-From our regression analysis class, we practiced on real world data sets to help us find the best linear models to match the data. By using transformation methods learned in class such as box-cox,
-we were able to transform the data to meet certain criteria for the residuals. These criterias amongst the errors like equal variance, uncorrelated, and gaussian distribution was vital to making accurate models.
+### Data Scout with LangChain
+An innovative project that creates an agent to analyze search queries, crawl multiple links, and generate follow-up prompts using the latest information. This project stands out by addressing the limitations of static datasets in language models, allowing for dynamically updated responses. 
 
-## Languages and Packages
-- Python
-  - TensorFlow/Pytorch
-  - Numpy
-  - SciPy
-  - Pandas
-  - Matplolib
-  - Seaborn
-- R
-  - TidyModels (ML)
-  - ggplot2
-- SQL
+- **Goal**: Provide users with intelligent and up-to-date responses to their queries.
+- **Unique Features**: Combines real-time web crawling with natural language processing to enhance the relevance of generated insights, bridging the gap between static and dynamic knowledge bases.
+- **Outcome**: Successfully implemented a pipeline that processes natural language queries and presents insights dynamically.
 
-## Goals and Future Projects
-- 
+**Technologies Used:** LangChain, Python, BeautifulSoup, Selenium
 
-## Contact Information
-Feel free to reach out and connect with me using any method below:
-- [Email Me!](Reesekaro@gmail.com)
-- [Linkedin!](www.linkedin.com/in/reese-karo)
+**GitHub Repository:** [Data Scout](https://github.com/username/data-scout-langchain)
+
+## <span style="color:#2e86c1">Skills</span>
+
+- **Programming Languages**: Python, R, SQL, MATLAB
+- **Libraries & Tools**: TensorFlow, Keras, Scikit-Learn, Pandas, NumPy, Matplotlib/seaborn, XGBoost, Random-Forest, and other Machine Learning tools
+- **Specializations**: Numerical Analysis, Time Series Analysis, Machine Learning, Neural Networks, Data Visualization
+- **Other Tools**: Git, Jupyter Notebooks
+
+## <span style="color:#2e86c1">Contacts</span>
+
+- **Email**: [reesekaro@gmail.com](mailto:reesekaro@gmail.com)
+- **LinkedIn**: [linkedin.com/in/reese-karo](https://linkedin.com/in/reese-karo)
+- **GitHub**: [github.com/reese-karo](https://github.com/reese-karo)
