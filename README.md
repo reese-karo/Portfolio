@@ -10,7 +10,7 @@ This project focuses on predicting brain tumor types using Convolutional Neural 
 
 
 **Objective**:
-To identify the most effective CNN architecture for brain tumor classification, including experimenting with custom preprocessing using OpenCV and evaluating transfer learning for optimal results.
+- To identify the most effective CNN architecture for brain tumor classification, including experimenting with custom preprocessing using OpenCV and evaluating transfer learning for optimal results.
 
 
 **Achievements**:
@@ -33,7 +33,7 @@ Developed a Streamlit-based interactive agent using the LangChain API, which all
 
 
 **Objective**:  
-Large language models (LLMs) often rely on static datasets, making them prone to outdated responses. Data Scout addresses this by augmenting LLM responses with freshly crawled information, enabling users to receive timely and contextually enriched answers.
+- Large language models (LLMs) often rely on static datasets, making them prone to outdated responses. Data Scout addresses this by augmenting LLM responses with freshly crawled information, enabling users to receive timely and contextually enriched answers.
 
 
 **Technologies Used**:  
@@ -46,9 +46,7 @@ Large language models (LLMs) often rely on static datasets, making them prone to
 
 ## **Prediction of Car Auction Prices**
 **Description**:  
-Analyzed a Kaggle dataset with over 100,000 car auction observations to predict vehicle selling prices. Conducted extensive data transformation and exploratory data analysis (EDA) to gain insights. Built and evaluated multiple machine learning models, including Gradient Boosted Trees, Dense Neural Networks, and XGBoost.  
-- Enhanced model accuracy through advanced preprocessing techniques, including scaling, normalization, and one-hot encoding using Scikit-learn pipelines.  
-- Optimized hyperparameters with Grid Search, K-Fold Cross-Validation, and Hyperband tuning for the neural network model.  
+Analyzed a Kaggle dataset with over 100,000 car auction observations to predict vehicle selling prices. Conducted extensive data transformation and exploratory data analysis (EDA) to gain insights. Built and evaluated multiple machine learning models, including Gradient Boosted Trees, Dense Neural Networks, and XGBoost. Enhanced model accuracy through advanced preprocessing techniques, including scaling, normalization, and one-hot encoding using Scikit-learn pipelines. Optimized hyperparameters with Grid Search, K-Fold Cross-Validation, and Hyperband tuning for the neural network model.  
 
 **Achievements**:  
 - The Dense Neural Net model achieved the best performance with a validation RMSE of 2344 and a testing RMSE of 2380.  
