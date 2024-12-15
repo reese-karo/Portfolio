@@ -21,15 +21,13 @@ Hi! I'm Reese Karo, a senior at the University of California, Santa Barbara, pur
 - Python libraries: langchain_community, streamlit
 
 ### Prediction of Car Auction Prices
-- **Description**: Working with a kaggle dataset of over 100,000 observations that required transformation to the dataset and EDA to understand Using Tidyverse packages in R. Forecasted auction car prices using 100,000 observations and machine learning algorithms, with the Gradient Boosted Tree model achieving the best RMSE of 4095 in training data and 4268 on the test set.
-- **Technologies Used**:
-  - R (Tidyverse, DPLYR, ggplot2)
-  - Machine Learning algorithms
-    - Random Forests
-    - XGBoost
-    - KNN
-    - Regression
-    - Simple Neural Network  
+**Description**: Analyzed a Kaggle dataset with over 100,000 car auction observations to predict vehicle selling prices. Conducted extensive data transformation and exploratory data analysis (EDA) to gain insights. Built and evaluated multiple machine learning models, including Gradient Boosted Trees, Dense Neural Networks, and XGBoost. The Gradient Boosted Tree model achieved the best performance with a validation RMSE of 2344 and a testing RMSE of 2380. Enhanced model accuracy through advanced preprocessing techniques, including scaling, normalization, and one-hot encoding using Scikit-learn pipelines. Optimized hyperparameters with Grid Search, K-Fold Cross-Validation, and Hyperband tuning for the neural network model.
+**Key Achievements**:
+Conducted EDA with Pandas, Seaborn, and Matplotlib to uncover data trends.
+Leveraged Scikit-learn pipelines for seamless data preprocessing.
+Optimized machine learning algorithms with hyperparameter tuning, achieving a Dense Neural Network RMSE of 2380 on the testing set.
+**Technologies Used**:
+Python: Scikit-learn, TensorFlow, Pandas, Seaborn, Matplotlib.
 
 ### Black-Scholes PDE approximation
 - **Description**:This project applies the Finite Difference Method to numerically approximate the Black-Scholes model for European call options. Through Python and Numpy, we've translated complex financial theory into a practical computational tool, supported by Matplotlib visualizations to demonstrate option pricing dynamics.
@@ -42,7 +40,7 @@ Hi! I'm Reese Karo, a senior at the University of California, Santa Barbara, pur
   - Accurate approximation of the Black-Scholes equation for call option pricing.
   - Efficient algorithm implementation demonstrating numerical analysis of financial models.
   - Insightful visualizations illustrating option price variations with underlying market changes.
-
+- **Github Repository** [Black Scholes Model FDM](https://github.com/reese-karo/Portfolio/blob/main/Black-Scholes/Black-Scholes-Report.pdf)
 
 ### Data Scout with LangChain
 An innovative project that creates an agent to analyze search queries, crawl multiple links, and generate follow-up prompts using the latest information. This project stands out by addressing the limitations of static datasets in language models, allowing for dynamically updated responses. 
@@ -53,7 +51,7 @@ An innovative project that creates an agent to analyze search queries, crawl mul
 
 **Technologies Used:** LangChain, Python, BeautifulSoup, Selenium
 
-**GitHub Repository:** [Data Scout](https://github.com/username/data-scout-langchain)
+**GitHub Repository:** [Data Scout](https://github.com/reese-karo/Portfolio/blob/main/DataScout%20AI/DataScout.py)
 
 ## <span style="color:#2e86c1">Skills</span>
 
