@@ -7,13 +7,19 @@ Hi! I'm Reese Karo, a senior at the University of California, Santa Barbara, pur
 ## **Brain Tumor Classification Modeling**
 **Description**:  
 This project focuses on predicting brain tumor types using Convolutional Neural Networks (CNN). It explores various architectures and leverages advanced preprocessing techniques to improve classification performance on medical image datasets.
+
+
 **Objective**:
 To identify the most effective CNN architecture for brain tumor classification, including experimenting with custom preprocessing using OpenCV and evaluating transfer learning for optimal results.
+
+
 **Achievements**:
 - Experimented with multiple CNN architectures, from simple 2-layer models to advanced 3-layer models with dense layers and Hyperband tuning.
 - Integrated transfer learning techniques to enhance model performance.
 - Achieved 93% accuracy and 97.4% AUC on the testing set with the transfer-learned model.
 - Demonstrated that transfer learning is the most efficient approach when paired with robust preprocessing techniques.
+
+
 **Technologies Used**:  
 - Python, Keras API, TensorFlow, OpenCV (CV2), NumPy, Matplotlib, Scikit-Learn  
 
@@ -24,9 +30,12 @@ To identify the most effective CNN architecture for brain tumor classification, 
 ## **Data Scout with LangChain**
 **Description**:  
 Developed a Streamlit-based interactive agent using the LangChain API, which allows users to input a search query on a specific topic. The system enhances query relevance by dynamically retrieving up-to-date information from the web through an integrated crawling API. This ensures the language model provides responses grounded in the latest available data.
+
+
 **Objective**:  
 Large language models (LLMs) often rely on static datasets, making them prone to outdated responses. Data Scout addresses this by augmenting LLM responses with freshly crawled information, enabling users to receive timely and contextually enriched answers.
-**Achievements**
+
+
 **Technologies Used**:  
 - LangChain, OpenAI Embeddings, Streamlit, GoogleSearch API, ApifyClient API  
 - Python libraries: langchain_community, Streamlit  
@@ -48,6 +57,8 @@ Analyzed a Kaggle dataset with over 100,000 car auction observations to predict 
 
 **Technologies Used**:  
 Python: Scikit-learn, TensorFlow, Pandas, Seaborn, Matplotlib  
+
+
 **GitHub Repository**: [Car Auction Price Prediction](https://github.com/reese-karo/Portfolio/blob/main/Car%20Auction%20Machine%20Learning%20Project/Car_Auction_py.pdf)
 
 ---
