@@ -1,9 +1,11 @@
 # <span style="color:#2e86c1">Welcome to Reese Karo's Portfolio</span>
 
 ## Education
-- B.S. Applied Mathematics | University of California, Santa Barbara (June 2025)
-- B.S. Statistics and Data Science | University of California, Santa Barbara (June 2025)
+- **B.S. Applied Mathematics** | University of California, Santa Barbara (June 2025)
+- **B.S. Statistics and Data Science** | University of California, Santa Barbara (June 2025)
+
 ---
+
 ## Projects
 ### **Brain Tumor Classification Modeling**
 **Description**:  
