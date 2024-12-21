@@ -1,10 +1,11 @@
 # <span style="color:#2e86c1">Welcome to Reese Karo's Portfolio</span>
 
-Hi! I'm Reese Karo, a senior at the University of California, Santa Barbara, pursuing a double major in Applied Mathematics and Statistics & Data Science. My enthusiasm for mathematics and machine learning stems from a commitment to applying these fields to tackle real-world challenges. Currently, I am delving into numerical analysis and investigating the applications of machine learning and neural networks, particularly in solving complex partial differential equations. I invite you to join me on my academic journey and explore my innovative project solutions.
-
+## Education
+- B.S. Applied Mathematics | University of California, Santa Barbara (June 2025)
+- B.S. Statistics and Data Science | University of California, Santa Barbara (June 2025)
 ---
-
-## **Brain Tumor Classification Modeling**
+## Projects
+### **Brain Tumor Classification Modeling**
 **Description**:  
 This project focuses on predicting brain tumor types using Convolutional Neural Networks (CNN). It explores various architectures and leverages advanced preprocessing techniques to improve classification performance on medical image datasets.
 
@@ -27,7 +28,7 @@ This project focuses on predicting brain tumor types using Convolutional Neural 
 
 ---
 
-## **Data Scout with LangChain**
+### **Data Scout with LangChain**
 **Description**:  
 Developed a Streamlit-based interactive agent using the LangChain API, which allows users to input a search query on a specific topic. The system enhances query relevance by dynamically retrieving up-to-date information from the web through an integrated crawling API. This ensures the language model provides responses grounded in the latest available data.
 
@@ -44,7 +45,7 @@ Developed a Streamlit-based interactive agent using the LangChain API, which all
 
 ---
 
-## **Prediction of Car Auction Prices**
+### **Prediction of Car Auction Prices**
 **Description**:  
 Analyzed a Kaggle dataset with over 100,000 car auction observations to predict vehicle selling prices. Conducted extensive data transformation and exploratory data analysis (EDA) to gain insights. Built and evaluated multiple machine learning models, including Gradient Boosted Trees, Dense Neural Networks, and XGBoost. Enhanced model accuracy through advanced preprocessing techniques, including scaling, normalization, and one-hot encoding using Scikit-learn pipelines. Optimized hyperparameters with Grid Search, K-Fold Cross-Validation, and Hyperband tuning for the neural network model.  
 
@@ -61,7 +62,7 @@ Python: Scikit-learn, TensorFlow, Pandas, Seaborn, Matplotlib
 
 ---
 
-## **Black-Scholes PDE Approximation**
+### **Black-Scholes PDE Approximation**
 **Description**:  
 This project applies the Finite Difference Method to numerically approximate the Black-Scholes model for European call options. Through Python and NumPy, complex financial theory was translated into a practical computational tool, supported by Matplotlib visualizations to demonstrate option pricing dynamics.
 
