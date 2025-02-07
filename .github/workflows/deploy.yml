@@ -28,4 +28,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: /Users/reese/Documents/Portfolio/html5up-eventually  # Change this to the directory containing your index.html
+          publish_dir: ./html5up-eventually # change this to the directory containing your index.html
