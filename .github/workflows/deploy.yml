@@ -22,10 +22,9 @@ jobs:
         run: |
           npm install
           npm run build  # If you have a build step, otherwise skip this
-          # Add any additional commands needed to deploy your site
           
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./html5up-eventually # change this to the directory containing your index.html
+          publish_dir: ./html5up-eventually # Change this to the directory containing your index.html
